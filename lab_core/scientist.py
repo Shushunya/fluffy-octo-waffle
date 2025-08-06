@@ -1,7 +1,7 @@
 from decorators import log_calls, requires_publications
 
 
-# TODO: add to_dict, __lt__ and __gt__ depending on publications
+# TODO: add to_dict
 # TODO: make LEVELS and FIELDS enums
 # TODO: add __hash__
 class Scientist:
@@ -37,10 +37,12 @@ class Scientist:
         else:
             raise ValueError(f"Invalid impact level: {value}")
 
-
     def __repr__(self):
-        text = f"Scientist: {self.name} | field: {self.field} | publications: {self.publications}"
-        return text
+        return (
+            f"<Scientist name='{self.name}', field='{self.field}', "
+            f"pubs={self.publications}, exp={self.experience_years}, "
+            f"impact='{self.impact_level}'>"
+        )
 
     def __str__(self):
         text = (f"{self.name} is a scientist in the {self.field} field. "

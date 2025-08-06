@@ -42,7 +42,9 @@ class TestScientist:
             Scientist(**data)
 
     def test_repr(self, base_scientist):
-        expected = f"Scientist: {base_scientist.name} | field: {base_scientist.field} | publications: {base_scientist.publications}"
+        expected = (f"<Scientist name='{base_scientist.name}', field='{base_scientist.field}', "
+        f"pubs={base_scientist.publications}, exp={base_scientist.experience_years}, "
+        f"impact='{base_scientist.impact_level}'>")
         assert expected == repr(base_scientist)
 
     def test_str(self, base_scientist):
