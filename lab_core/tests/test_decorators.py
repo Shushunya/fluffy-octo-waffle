@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime
+import os
 from lab_core.decorators import log_calls, requires_publications
 
 class Dummy:
@@ -44,6 +45,7 @@ def test_log_calls_creates_log_entry(tmp_logfile):
 
     assert result == "published"
     assert tmp_logfile.read_text() == expected_log_text
+    os.remove(tmp_logfile)
 
 class TestRequiresPublications:
 

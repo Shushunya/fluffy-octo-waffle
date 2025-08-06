@@ -10,5 +10,5 @@ class FileLogger:
 
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.log_file and self.log_file.closed:
+        if self.log_file and not self.log_file.closed:
             self.log_file.close()
