@@ -16,7 +16,6 @@ class Dummy:
     def sample_publish(self):
         return "published"
 
-    @log_calls
     @requires_publications(minimum=10)
     def sample_promote(self):
         return "promoted"
@@ -25,10 +24,12 @@ class Dummy:
 # Test @log_calls
 # -------------------------------
 
-def test_log_calls_creates_log_entry(tmp_path):
-    log_path = tmp_path / "test_logs.txt"
+@pytest.fixture()
+def tmp_logfile(tmp_path):
+    return tmp_path / "test_logs.txt"
 
-    obj = Dummy(log_path=log_path)
+def test_log_calls_creates_log_entry(tmp_logfile):
+    obj = Dummy(log_path=tmp_logfile)
     result = obj.sample_publish()
 
     func_name = Dummy.sample_publish.__name__
@@ -42,7 +43,7 @@ def test_log_calls_creates_log_entry(tmp_path):
     )
 
     assert result == "published"
-    assert log_path.read_text() == expected_log_text
+    assert tmp_logfile.read_text() == expected_log_text
 
 class TestRequiresPublications:
 
