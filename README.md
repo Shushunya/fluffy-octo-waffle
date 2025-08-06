@@ -1,75 +1,97 @@
-1. Створи клас Scientist:
+# Scientist Simulation Core (lab_core)
 
+A Python module simulating scientists and their research activity, featuring:
+
+- A `Scientist` class with domain logic
+- Custom context manager for logging (`FileLogger`)
+- Decorators for logging function calls
+- A data generator for bulk scientist creation
+- Full `pytest` test suite with fixtures and parameterized cases
+
+---
+
+## Project Structure
+
+```yaml
+lab_core/
+├── context.py
+├── scientist.py
+├── generator.py
+├── decorators.py
+├── exceptions.py
+tests/
+├── __init__.py
+├── task.md
+├── test_scientist.py
+├── test_decorators.py
+├── test_generator.py
+├── test_file_logger.py
 ```
-class Scientist:
-    def __init__(self, name: str, field: str, publications: int, experience_years: float): ...
+
+---
+
+## Features
+
+### `Scientist` class
+
+Models a scientist with:
+
+- Field validation
+- Impact level management
+- Publishing and promotion logic
+- Comparison operators (`==`, `<`, `>`)
+- String and repr output
+
+---
+
+### Generator
+
+`generate_scientists(number=N)`  
+Yields N randomized scientist objects using realistic name and field patterns.
+
+---
+
+### Logging & Decorators
+
+- `@log_calls`: Logs decorated function calls to a file
+- `FileLogger`: Custom context manager used by the decorator
+
+Log file format:
+
+```[2025-08-06 13:45:12] Called sample_method(args=[1, 2], kwargs={'x': 3})```
+
+---
+
+## Testing
+
+Uses `pytest` for all tests.
+
+### To run all tests:
+
+Go to the project directory and run `pytest` in the terminal.
+
+### Test coverage includes:
+
+- Valid/invalid object creation 
+- Attribute setters/getters
+- Logging and decorator behavior
+- Generator return type and output
+- Context manager functionality
+
+### Example usage
+
+```bash
+from lab_core.scientist import Scientist
+
+sc = Scientist("Marie Curie", field="physics", publications=10, experience_years=15)
+print(sc)
+sc.promote()
+sc.publish()
 ```
-2. Додай:
+or
+```bash
+from lab_core.generator import generate_scientists
 
-- `@property` → impact_level: high / medium / low
-
-- `__str__`,` __repr__`, `__eq__`
-
-- Валідація у `__init__` (наприклад, поле field має бути з переліку)
-
-3. Зроби успадкування:
-
-`class LeadScientist(Scientist)` з новим полем `team_size` або `lab_name`
-
-4. Декоратори:
-
-- `@log_calls` — виводить лог, коли викликається метод
-
-- `@requires_publications(min=10)` — валідатор для успішних вчених
-
-5. Контекстний менеджер:
-
-- `class FileLogger`: пише дані про вченого в лог-файл у `__enter__` / `__exit__`
-
-6. Генератор:
-
-- `generate_scientists(n)` — генерує випадкових вчених з faker або руками
-
-7. Покриття юніт-тестами (pytest):
-
-- `test_scientist.py` — тести для логіки та property
-
-1. Scientist
-name (рядок)
-
-field (рядок, галузь науки)
-
-experience_years (int)
-
-publications (список назв публікацій)
-
-Метод add_publication(title: str)
-
-Property is_senior: True, якщо досвіду більше 10 років
-
-2. Experiment
-title (рядок)
-
-scientist (об’єкт Scientist)
-
-status ("ongoing", "completed", "failed")
-
-Класовий атрибут allowed_statuses
-
-Статичний метод validate_status(status: str) → перевіряє чи статус валідний
-
-Property is_successful: повертає True, якщо статус "completed" та вченому > 5 років досвіду
-
-🔹 Особливі вимоги:
-Використати @property і @classmethod/@staticmethod де потрібно
-
-Продумати правильну інкапсуляцію: не всі атрибути мають бути доступні напряму
-
-Класи повинні бути читабельними: реалізуй __str__ або __repr__ у Scientist
-
-Реалізуй зв'язок: 1 Scientist може мати багато Experiment
-
-🔸 Не обов’язково, але бажано:
-Покрий код простими тестами (навіть вручну)
-
-Напиши приклад створення об’єктів і взаємодії між ними
+for s in generate_scientists(number=5):
+    print(s)
+```

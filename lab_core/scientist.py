@@ -1,4 +1,4 @@
-from decorators import log_calls, requires_publications
+from lab_core.decorators import log_calls, requires_publications
 
 
 # TODO: add to_dict

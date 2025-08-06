@@ -4,7 +4,7 @@ from datetime import datetime
 # TODO: make env file and add there the log file
 # TODO: make is_promotable(self) method and call it in decorator
 def log_calls(func):
-    from context import FileLogger
+    from lab_core.context import FileLogger
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
         func_name = func.__name__
