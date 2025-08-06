@@ -115,11 +115,16 @@ class TestScientist:
         with pytest.raises(ValueError, match=error_msg):
             test_obj.promote()
 
-    @pytest.mark.parametrize("pubs, years, expected", [(8, 10, "medium")])
-    def test_promote_success(self, base_data, pubs, years, expected):
+    @pytest.mark.parametrize("pubs, years, lvl, expected", [
+        (8, 10, "low", "medium"),
+        (8, 10, "medium", "high"),
+        (8, 10, "high", "high"),
+    ])
+    def test_promote_success(self, base_data, pubs, years, lvl, expected):
         data = deepcopy(base_data)
         data['publications'] = pubs
         data['experience_years'] = years
+        data['impact_level'] = lvl
         test_obj = Scientist(**data)
         test_obj.promote()
         assert test_obj.impact_level == expected
