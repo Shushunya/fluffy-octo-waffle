@@ -9,9 +9,15 @@ def log_calls(func):
     def wrapper(self, *args, **kwargs):
         func_name = func.__name__
         date = datetime.now()
-        log_text = f"{date}     {func_name}    {repr(self)}\n"
+        log_text = (
+            f"[{date.strftime('%Y-%m-%d %H:%M:%S')}] "
+            f"CALL: {func_name} | "
+            f"OBJECT: {repr(self)}"
+            "\n"
+        )
         result = func(self, *args, **kwargs)
-        with FileLogger() as f:
+        log_path = getattr(self, "_log_path", "logs.txt")
+        with FileLogger(path=log_path) as f:
             f.write(log_text)
         return result
     return wrapper
