@@ -1,4 +1,16 @@
-.venv
+# config files
 .env
+!.env.sample
+
+# environment
+.venv
 .idea
+
+# cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# logs
+*.log
 log*.txt
