@@ -18,6 +18,7 @@ def base_scientist(base_data):
     return Scientist(**base_data)
 
 
+
 class TestScientist:
     def test_create_scientist_valid(self, base_data):
         test_obj = Scientist(**base_data)
@@ -56,6 +57,30 @@ class TestScientist:
     def test_eq(self, base_scientist, base_data):
         other_scientist = Scientist(**base_data)
         assert other_scientist == base_scientist
+
+    def test_lt(self, base_scientist):
+        scientist1 = deepcopy(base_scientist)
+        scientist2 = deepcopy(base_scientist)
+        scientist2.publications = scientist1.publications + 1
+        assert scientist1 < scientist2
+        assert not scientist2 < scientist1
+
+    def test_lt_fail_non_scientist(self, base_scientist):
+        other = "aa"
+        assert not base_scientist < other
+        assert not base_scientist < 1
+
+    def test_gt(self, base_scientist):
+        scientist1 = deepcopy(base_scientist)
+        scientist2 = deepcopy(base_scientist)
+        scientist2.publications = scientist1.publications + 1
+        assert scientist2 > scientist1
+        assert not scientist1 > scientist2
+
+    def test_gt_fail_non_scientist(self, base_scientist):
+        other = "aa"
+        assert not base_scientist > other
+        assert not base_scientist > 1
 
     def test_impact_level_getter(self, base_scientist, base_data):
         impact_lvl = base_scientist.impact_level

@@ -48,6 +48,24 @@ class Scientist:
         impact_lvl = f"The impact level is {self.impact_level}."
         return text + impact_lvl
 
+    def __eq__(self, other):
+        if isinstance(other, Scientist):
+            return (self.name.lower() == other.name.lower()
+                    and self.field.lower() == other.field.lower()
+                    and self.publications == other.publications
+                    and self.experience_years == other.experience_years)
+        return False
+
+    def __lt__(self, other):
+        if isinstance(other, Scientist):
+            return self.publications < other.publications
+        return False
+
+    def __gt__(self, other):
+        if isinstance(other, Scientist):
+            return self.publications > other.publications
+        return False
+
     @log_calls
     def publish(self):
         self.publications += 1
@@ -59,14 +77,6 @@ class Scientist:
         level_index = Scientist.LEVELS.index(self.impact_level)
         if level_index != maximum - 1:
             self._impact_level = Scientist.LEVELS[level_index+1]
-
-    def __eq__(self, other):
-        if isinstance(other, Scientist):
-            return (self.name.lower() == other.name.lower()
-                    and self.field.lower() == other.field.lower()
-                    and self.publications == other.publications
-                    and self.experience_years == other.experience_years)
-        return False
 
 
 class LeadScientist(Scientist):
